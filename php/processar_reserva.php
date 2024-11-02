@@ -9,27 +9,31 @@ if (isset($_POST['nome'], $_POST['telefone'], $_POST['email'], $_POST['data'], $
     $data = $_POST['data'];
     $metodo_pagamento = $_POST['metodo_pagamento'];
 
-    // Verificar se já existe uma reserva para o dia selecionado
-    $stmt_check = $conn->prepare("SELECT * FROM reservas WHERE data = ?");
-    $stmt_check->bind_param("s", $data);
-    $stmt_check->execute();
-    $result = $stmt_check->get_result();
+    try {
+        // Verificar se já existe uma reserva para o dia selecionado
+        $stmt_check = $conn->prepare("SELECT * FROM reservas WHERE data = :data");
+        $stmt_check->bindParam(':data', $data);
+        $stmt_check->execute();
 
-    if ($result->num_rows > 0) {
-        // Redirecionar para AluguelEspaco.html com mensagem de erro
-        header("Location: ../AluguelEspaco.html?error=1");
-        exit;
-    } else {
-        // Inserir o cliente e a reserva conforme o código anterior
-        $stmt_cliente = $conn->prepare("INSERT INTO clientes (nome, email, telefone) VALUES (?, ?, ?)");
-        $stmt_cliente->bind_param("sss", $nome, $email, $telefone);
+        if ($stmt_check->rowCount() > 0) {
+            // Redirecionar para AluguelEspaco.html com mensagem de erro
+            header("Location: ../AluguelEspaco.html?error=1");
+            exit;
+        } else {
+            // Inserir o cliente na tabela clientes
+            $stmt_cliente = $conn->prepare("INSERT INTO clientes (nome, email, telefone) VALUES (:nome, :email, :telefone)");
+            $stmt_cliente->bindParam(':nome', $nome);
+            $stmt_cliente->bindParam(':email', $email);
+            $stmt_cliente->bindParam(':telefone', $telefone);
+            $stmt_cliente->execute();
 
-        if ($stmt_cliente->execute()) {
-            $id_cliente = $stmt_cliente->insert_id;
+            $id_cliente = $conn->lastInsertId();
 
-            // Inserir a reserva
-            $stmt_reserva = $conn->prepare("INSERT INTO reservas (data, id_cliente, metodo_pagamento, status) VALUES (?, ?, ?, 'Pendente')");
-            $stmt_reserva->bind_param("sis", $data, $id_cliente, $metodo_pagamento);
+            // Inserir a reserva na tabela reservas
+            $stmt_reserva = $conn->prepare("INSERT INTO reservas (data, id_cliente, metodo_pagamento, status) VALUES (:data, :id_cliente, :metodo_pagamento, 'Pendente')");
+            $stmt_reserva->bindParam(':data', $data);
+            $stmt_reserva->bindParam(':id_cliente', $id_cliente);
+            $stmt_reserva->bindParam(':metodo_pagamento', $metodo_pagamento);
 
             if ($stmt_reserva->execute()) {
                 header("Location: ../AluguelEspaco.html?success=1&data=$data&metodo_pagamento=$metodo_pagamento");
@@ -37,21 +41,13 @@ if (isset($_POST['nome'], $_POST['telefone'], $_POST['email'], $_POST['data'], $
             } else {
                 echo "Erro ao realizar reserva.";
             }
-            $stmt_reserva->close();
-        } else {
-            echo "Erro ao inserir cliente.";
         }
-        $stmt_cliente->close();
+    } catch (PDOException $e) {
+        echo "Erro: " . $e->getMessage();
     }
-
-    $stmt_check->close();
 } else {
     echo "Por favor, preencha todos os campos obrigatórios.";
 }
 
-$conn->close();
+$conn = null; // Fecha a conexão
 ?>
-
-
-
-

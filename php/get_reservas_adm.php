@@ -5,11 +5,13 @@ include('db_connection.php');
 $query = "SELECT reservas.id, reservas.data, clientes.nome, clientes.telefone, clientes.email, reservas.metodo_pagamento 
           FROM reservas 
           JOIN clientes ON reservas.id_cliente = clientes.id";
-$result = $conn->query($query);
+$stmt = $conn->query($query);
 
 $reservas = [];
 
-while ($row = $result->fetch_assoc()) {
+// Busca todos os resultados como um array associativo
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+foreach ($rows as $row) {
     $reservas[] = [
         'id' => $row['id'],  // ID da reserva
         'title' => "Reserva de {$row['nome']}",
@@ -27,4 +29,3 @@ while ($row = $result->fetch_assoc()) {
 
 echo json_encode($reservas);
 ?>
-

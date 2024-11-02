@@ -3,11 +3,13 @@ include('db_connection.php');
 
 // Seleciona todas as datas reservadas
 $query = "SELECT data FROM reservas";
-$result = $conn->query($query);
+$stmt = $conn->query($query);
 
 $reservas = [];
 
-while ($row = $result->fetch_assoc()) {
+// Busca todos os resultados como um array associativo
+$rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
+foreach ($rows as $row) {
     $reservas[] = [
         'title' => 'Reservado',       // Texto a ser exibido no calendário
         'start' => $row['data'],      // Data do evento
@@ -18,3 +20,4 @@ while ($row = $result->fetch_assoc()) {
 
 echo json_encode($reservas);
 ?>
+
