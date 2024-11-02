@@ -251,3 +251,199 @@ footer {
 #calendar {
     height: 100%; /* O calendário ocupa toda a altura do contêiner */
 }
+
+
+/* Estilo para o contêiner do formulário */
+#formulario {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9; /* Cor de fundo clara */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+}
+
+/* Títulos */
+#formulario h1 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+#formulario h2 {
+    text-align: center;
+    color: #666;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para os rótulos dos campos */
+#formulario label {
+    display: block;
+    font-weight: bold;
+    color: #555;
+    margin-top: 15px;
+    margin-bottom: 5px;
+}
+
+/* Estilo para os campos de entrada */
+#formulario input[type="text"],
+#formulario input[type="tel"],
+#formulario input[type="email"],
+#formulario input[type="date"],
+#formulario select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    transition: border-color 0.3s;
+}
+
+/* Efeito de foco nos campos de entrada */
+#formulario input[type="text"]:focus,
+#formulario input[type="tel"]:focus,
+#formulario input[type="email"]:focus,
+#formulario input[type="date"]:focus,
+#formulario select:focus {
+    border-color: #1b92bd; /* Cor azul piscina */
+    outline: none;
+}
+
+/* Estilo para o botão de envio */
+#formulario button.botao {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: #1b92bd; /* Cor azul piscina */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Efeito de hover no botão */
+#formulario button.botao:hover {
+    background-color: #0077a3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo adicional para a seção Pix */
+#instrucao-pix {
+    background-color: #e7f5fe;
+    border: 1px solid #b3d9f3;
+    padding: 15px;
+    border-radius: 5px;
+    margin-top: 10px;
+    text-align: center;
+}
+#instrucao-pix p {
+    color: #0077a3;
+    font-weight: bold;
+}
+
+/* Media Query para dispositivos móveis */
+@media (max-width: 500px) {
+    #formulario {
+        padding: 15px;
+    }
+    #formulario button.botao {
+        font-size: 16px;
+        padding: 10px;
+    }
+}
+
+/* Estilo para o contêiner do modal */
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Conteúdo do modal */
+.modal-content {
+    background-color: #f9f9f9; /* Cor de fundo clara */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    text-align: center;
+    position: relative;
+}
+
+/* Botão de fechar */
+.modal .close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+}
+
+/* Título do modal */
+.modal-content h2 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para os detalhes da reserva */
+.modal-content p {
+    font-size: 16px;
+    color: #555;
+    margin: 10px 0;
+    text-align: left;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/* Estilo dos botões de ação */
+.modal-content button {
+    width: 48%;
+    padding: 10px;
+    margin: 10px 1%;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+/* Botão de modificar reserva */
+#modificarReserva {
+    background-color: #1b92bd; /* Cor azul piscina */
+    color: #fff;
+}
+
+#modificarReserva:hover {
+    background-color: #0077a3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão de cancelar reserva */
+#cancelarReserva {
+    background-color: #ff4d4d; /* Cor vermelha */
+    color: #fff;
+}
+
+#cancelarReserva:hover {
+    background-color: #cc0000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
