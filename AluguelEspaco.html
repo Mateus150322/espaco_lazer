@@ -6,10 +6,10 @@
     <title>Reserve seu Espaço</title>
     <link rel="stylesheet" href="css/styles.css">
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.css' rel='stylesheet' />
-<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.0/main.min.js'></script>
     <script>
         function mostrarInstrucoesPagamento() {
-            const pagamento = document.getElementById("pagamento").value;
+            const pagamento = document.getElementById("metodo_pagamento").value; // Corrigido o ID
             const instrucaoPix = document.getElementById("instrucao-pix");
             instrucaoPix.style.display = pagamento === "Pix" ? "block" : "none";
         }
@@ -53,7 +53,6 @@
             <label for="data">Data da Reserva:</label>
             <input type="date" id="data" name="data" required>
 
-           
             <label for="metodo_pagamento">Método de pagamento:</label>
             <select name="metodo_pagamento" id="metodo_pagamento" onchange="mostrarInstrucoesPagamento()" required>
                 <option value="Dinheiro">Dinheiro</option>
@@ -61,10 +60,9 @@
                 <option value="Pix">Pix</option>
             </select>
 
-           
             <div id="instrucao-pix" style="display: none; margin-top: 15px;">
                 <p>Para pagamento via Pix, escaneie o QR Code abaixo:</p>
-                <img src="Imagens/QRcode.png" alt="QR Code para Pix" style="width: 150px; height: 150px;">
+                <img src="Imagens/QRCode.jpeg" alt="QR Code para Pix" style="width: 150px; height: 150px;">
             </div>
 
             <button type="submit" class="botao">Enviar Reserva</button>
@@ -83,30 +81,42 @@
         }
     </script>
 
-<div class="calendar-container">
-    <div id="calendar"></div>
-</div>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const calendarEl = document.getElementById('calendar');
-        const calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            locale: 'pt-br', // Define o idioma do calendário para português
-            events: '/espaco_lazer/php/get_reservas.php', // URL para carregar os eventos reservados
-            eventColor: '#FF0000', // Cor dos dias reservados
-            dateClick: function (info) {
-                if (confirm(`Você selecionou ${info.dateStr}. Deseja reservar?`)) {
-                    document.getElementById('data').value = info.dateStr; // Preenche o campo de data com o dia selecionado
-                }
-            }
+    <script>
+        // Define a data mínima como a data de hoje para o campo de data
+        document.addEventListener("DOMContentLoaded", function () {
+            const today = new Date().toISOString().split("T")[0];
+            document.getElementById("data").setAttribute("min", today);
         });
-        calendar.render();
-    });
-</script>
+    </script>
 
+    <div class="calendar-container">
+        <div id="calendar"></div>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const today = new Date().toISOString().split("T")[0]; // Data atual formatada
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'pt-br',
+                events: '/espaco_lazer/php/get_reservas.php',
+                eventColor: '#FF0000',
+                dateClick: function (info) {
+                    if (info.dateStr >= today) { // Verifica se a data clicada é futura ou atual
+                        if (confirm(`Você selecionou ${info.dateStr}. Deseja reservar?`)) {
+                            document.getElementById('data').value = info.dateStr;
+                        }
+                    } else {
+                        alert("Você não pode selecionar uma data que já passou.");
+                    }
+                }
+            });
+            calendar.render();
+        });
+    </script>
 
     <script src="js/aluguel.js"></script>
 </body>
 </html>
+
