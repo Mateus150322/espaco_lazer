@@ -33,6 +33,4 @@ if (isset($data['id'], $data['data'], $data['metodo_pagamento'])) {
 
 // Fecha a conexão com o banco de dados
 $conn = null;
-?>
-
 

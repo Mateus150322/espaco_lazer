@@ -372,7 +372,8 @@ footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    overflow: hidden; /* Para evitar rolagem */
+    overflow: hidden; /* Evita rolagem */
+    transition: opacity 0.3s ease; /* Transição de opacidade */
 }
 
 /* Conteúdo do modal */
@@ -382,9 +383,16 @@ footer {
     border-radius: 10px;
     max-width: 400px;
     width: 90%;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra leve */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Sombra mais destacada */
     text-align: center;
     position: relative;
+    animation: slideDown 0.3s ease; /* Animação de entrada */
+}
+
+/* Animação para o modal aparecer suavemente */
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 /* Botão de fechar */
@@ -426,6 +434,13 @@ footer {
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s, box-shadow 0.3s;
+    outline: none;
+}
+
+/* Efeito de foco para botões */
+.modal-content button:focus {
+    outline: 2px solid #666;
+    outline-offset: 2px;
 }
 
 /* Botão de modificar reserva */
@@ -447,5 +462,78 @@ footer {
 
 #cancelarReserva:hover {
     background-color: #cc0000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Estilo para as mensagens */
+.mensagem {
+    padding: 15px;
+    border-radius: 5px;
+    margin: 20px auto;
+    font-weight: bold;
+    text-align: center;
+    width: 90%;
+    max-width: 500px;
+    margin-top: 20px;
+    opacity: 0;
+    transition: opacity 0.5s ease; /* Transição de opacidade */
+}
+
+/* Exibir a mensagem com transição */
+.mensagem-sucesso,
+.mensagem-erro {
+    opacity: 1;
+}
+
+/* Mensagem de sucesso */
+.mensagem-sucesso {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* Mensagem de erro */
+.mensagem-erro {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+/* Estilo dos botões de confirmação e cancelamento */
+.modal-content button#confirmarBotao {
+    background-color: #0077a3; /* Verde para o botão de confirmação */
+    color: #fff;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 10px;
+}
+
+.modal-content button#confirmarBotao:hover {
+    background-color: #0077a3;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content button#cancelarBotao {
+    background-color: #f44336; /* Vermelho para o botão de cancelamento */
+    color: #fff;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.modal-content button#cancelarBotao:hover {
+    background-color: #d32f2f;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
