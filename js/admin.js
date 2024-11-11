@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('modificarReserva').addEventListener('click', () => {
         if (reservaIdAtual) {
             // Primeiro, pedir a nova data
-            mostrarModalCustomizado("Digite a nova data para a reserva (AAAA-MM-DD):", true, (novaData) => {
+            mostrarModalCustomizado("Digite a nova data para a reserva (DD-MM-AAAA):", true, (novaData) => {
                 if (!novaData) {
                     exibirMensagem("Data inválida.", "erro");
                     return;

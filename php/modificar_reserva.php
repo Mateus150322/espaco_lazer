@@ -10,10 +10,19 @@ if (isset($data['id'], $data['data'], $data['metodo_pagamento'])) {
     $novaData = $data['data'];
     $novoMetodoPagamento = $data['metodo_pagamento'];
 
+    // Converte a data de DD-MM-AAAA para AAAA-MM-DD, se estiver no formato esperado
+    $partesData = explode("-", $novaData);
+    if (count($partesData) === 3) {
+        $novaDataFormatada = "{$partesData[2]}-{$partesData[1]}-{$partesData[0]}";
+    } else {
+        echo json_encode(["status" => "error", "message" => "Formato de data inválido. Use DD-MM-AAAA."]);
+        exit;
+    }
+
     try {
         // Prepara a consulta para atualizar a reserva
         $stmt = $conn->prepare("UPDATE reservas SET data = :data, metodo_pagamento = :metodo_pagamento WHERE id = :id");
-        $stmt->bindParam(':data', $novaData);
+        $stmt->bindParam(':data', $novaDataFormatada);
         $stmt->bindParam(':metodo_pagamento', $novoMetodoPagamento);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
@@ -33,4 +42,5 @@ if (isset($data['id'], $data['data'], $data['metodo_pagamento'])) {
 
 // Fecha a conexão com o banco de dados
 $conn = null;
+
 
