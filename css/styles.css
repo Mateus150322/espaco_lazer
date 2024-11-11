@@ -566,3 +566,18 @@ footer {
     border-color: #1b92bd; /* Cor de foco consistente com o botão principal */
     outline: none;
 }
+
+.botao-adm {
+    display: inline-block;
+    padding: 10px 20px;
+    color: white;
+    background-color: #333;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.botao-adm:hover {
+    background-color: #555;
+}
