@@ -41,7 +41,8 @@ if (isset($_POST['nome'], $_POST['telefone'], $_POST['email'], $_POST['data'], $
             header("Location: ../AluguelEspaco.html?error=ja_reservado");
             exit;
         } else {
-            $stmt_reserva = $conn->prepare("INSERT INTO reservas (data, id_cliente, metodo_pagamento, status) VALUES (:data, :id_cliente, :metodo_pagamento, 'Pendente')");
+            // Insere a reserva sem o campo 'status'
+            $stmt_reserva = $conn->prepare("INSERT INTO reservas (data, id_cliente, metodo_pagamento) VALUES (:data, :id_cliente, :metodo_pagamento)");
             $stmt_reserva->bindParam(':data', $data);
             $stmt_reserva->bindParam(':id_cliente', $id_cliente);
             $stmt_reserva->bindParam(':metodo_pagamento', $metodo_pagamento);
