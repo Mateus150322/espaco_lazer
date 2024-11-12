@@ -10,7 +10,7 @@ if (isset($_POST['nome'], $_POST['telefone'], $_POST['email'], $_POST['data'], $
 
     $data_atual = date('Y-m-d');
     if ($data < $data_atual) {
-        header("Location: ../AluguelEspaco.html?error=data_passada");
+        header("Location: /espaco_lazer/templates/AluguelEspaco.php?error=data_passada");
         exit;
     }
 
@@ -38,7 +38,7 @@ if (isset($_POST['nome'], $_POST['telefone'], $_POST['email'], $_POST['data'], $
         $stmt_check->execute();
 
         if ($stmt_check->rowCount() > 0) {
-            header("Location: ../AluguelEspaco.html?error=ja_reservado");
+            header("Location: /espaco_lazer/templates/AluguelEspaco.php?error=ja_reservado");
             exit;
         } else {
             // Insere a reserva sem o campo 'status'
@@ -48,7 +48,7 @@ if (isset($_POST['nome'], $_POST['telefone'], $_POST['email'], $_POST['data'], $
             $stmt_reserva->bindParam(':metodo_pagamento', $metodo_pagamento);
 
             if ($stmt_reserva->execute()) {
-                header("Location: ../AluguelEspaco.html?success=1&data=$data&metodo_pagamento=$metodo_pagamento");
+                header("Location: /espaco_lazer/templates/AluguelEspaco.php?success=1&data=$data&metodo_pagamento=$metodo_pagamento");
                 exit;
             } else {
                 echo "Erro ao realizar reserva.";
@@ -62,4 +62,6 @@ if (isset($_POST['nome'], $_POST['telefone'], $_POST['email'], $_POST['data'], $
 }
 
 $conn = null;
+
+
 

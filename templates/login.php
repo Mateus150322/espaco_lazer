@@ -8,12 +8,12 @@ session_start();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login do Administrador</title>
-    <link rel="stylesheet" href="css/login.css">
+    <link rel="stylesheet" href="/espaco_lazer/css/login.css">
 </head>
 <body>
     <div class="login">
         <h1>Login do Administrador</h1>
-        <form action="login_action.php" method="POST">
+        <form action="/espaco_lazer/php/login_action.php" method="POST">
             <input type="text" name="usuario" placeholder="Usuário" required="required" />
             <input type="password" name="senha" placeholder="Senha" required="required" />
             <button type="submit" class="btn btn-primary btn-block btn-large">Entrar</button>

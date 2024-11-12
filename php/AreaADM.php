@@ -3,7 +3,7 @@ session_start();
 
 // Verifica se o usuário está autenticado
 if (!isset($_SESSION['usuario'])) {
-    header("Location: login.html");  // Redireciona para login se não estiver autenticado
+    header("Location: /espaco_lazer/templates/login.php");  // Redireciona para o login se não estiver autenticado
     exit();
 }
 ?>
@@ -14,13 +14,14 @@ if (!isset($_SESSION['usuario'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área do Administrador</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="/espaco_lazer/css/styles.css">
     <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css' rel='stylesheet' />
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js'></script>
 </head>
 <body>
     <header>
         <h1>Área do Administrador</h1>
+        <a href="/espaco_lazer/php/logout.php" class="logout-btn">Logout</a> <!-- Link de logout -->
     </header>
 
     <div class="calendar-container">
@@ -53,14 +54,7 @@ if (!isset($_SESSION['usuario'])) {
         </div>
     </div>
 
-    <script src="js/admin.js"></script>
+    <script src="/espaco_lazer/js/admin.js"></script>
 </body>
 </html>
 
-
-
-
-
-    <script src="js/admin.js"></script>
-</body>
-</html>
