@@ -240,15 +240,16 @@ footer {
     }
 }
 
+/* Contêiner calendário */
 .calendar-container {
-    max-width: 80%; /* Ajuste a largura conforme necessário */
-    height: 500px; /* Ajuste a altura conforme necessário */
-    margin: 0 auto; /* Centraliza o contêiner */
-    overflow: hidden; /* Garante que não haja scroll no calendário */
+    max-width: 80%; 
+    height: 500px; 
+    margin: 0 auto; 
+    overflow: hidden; 
 }
 
 #calendar {
-    height: 100%; /* O calendário ocupa toda a altura do contêiner */
+    height: 100%; 
 }
 
 
@@ -501,7 +502,7 @@ footer {
 
 /* Estilo dos botões de confirmação e cancelamento */
 .modal-content button#confirmarBotao {
-    background-color: #0077a3; /* Verde para o botão de confirmação */
+    background-color: #1b92bd; /* azul  para o botão de confirmação */
     color: #fff;
     width: 100%;
     padding: 12px;
