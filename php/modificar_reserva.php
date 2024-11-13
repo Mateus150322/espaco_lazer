@@ -10,19 +10,22 @@ if (isset($data['id'], $data['data'], $data['metodo_pagamento'])) {
     $novaData = $data['data'];
     $novoMetodoPagamento = $data['metodo_pagamento'];
 
-    // Converte a data de DD-MM-AAAA para AAAA-MM-DD, se estiver no formato esperado
-    $partesData = explode("-", $novaData);
-    if (count($partesData) === 3) {
-        $novaDataFormatada = "{$partesData[2]}-{$partesData[1]}-{$partesData[0]}";
-    } else {
-        echo json_encode(["status" => "error", "message" => "Formato de data inválido. Use DD-MM-AAAA."]);
-        exit;
-    }
-
     try {
+        // Verifica se a nova data já está reservada por outra reserva
+        $stmt_check = $conn->prepare("SELECT * FROM reservas WHERE data = :data AND id != :id");
+        $stmt_check->bindParam(':data', $novaData);
+        $stmt_check->bindParam(':id', $id);
+        $stmt_check->execute();
+
+        if ($stmt_check->rowCount() > 0) {
+            // Retorna erro se a data já estiver reservada
+            echo json_encode(["status" => "error", "message" => "A data selecionada já está reservada. Por favor, escolha outra data."]);
+            exit;
+        }
+
         // Prepara a consulta para atualizar a reserva
         $stmt = $conn->prepare("UPDATE reservas SET data = :data, metodo_pagamento = :metodo_pagamento WHERE id = :id");
-        $stmt->bindParam(':data', $novaDataFormatada);
+        $stmt->bindParam(':data', $novaData);
         $stmt->bindParam(':metodo_pagamento', $novoMetodoPagamento);
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
@@ -42,5 +45,7 @@ if (isset($data['id'], $data['data'], $data['metodo_pagamento'])) {
 
 // Fecha a conexão com o banco de dados
 $conn = null;
+?>
+
 
 

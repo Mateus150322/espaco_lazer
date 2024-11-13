@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const confirmarBotao = document.getElementById("confirmarBotao");
     const cancelarBotao = document.getElementById("cancelarBotao");
     const closeModalButton = document.querySelector(".close");
-    
+
     let reservaIdAtual = null;
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('cliente-telefone').innerText = `Telefone: ${event.extendedProps.telefone || "Não disponível"}`;
         document.getElementById('cliente-email').innerText = `E-mail: ${event.extendedProps.email || "Não disponível"}`;
         document.getElementById('metodo-pagamento').innerText = `Método de Pagamento: ${event.extendedProps.pagamento || "Não disponível"}`;
-
         modal.style.display = "flex";
     }
 
@@ -50,7 +49,6 @@ document.addEventListener('DOMContentLoaded', function () {
         setTimeout(() => mensagemDiv.remove(), 3000);
     }
 
-    // Função para mostrar o modal customizado com input
     function mostrarModalCustomizado(mensagem, comInput = false, callback) {
         modalMensagem.innerText = mensagem;
         modalInput.style.display = comInput ? "block" : "none";
@@ -72,24 +70,20 @@ document.addEventListener('DOMContentLoaded', function () {
         };
     }
 
-    // Modificar Reserva
     document.getElementById('modificarReserva').addEventListener('click', () => {
         if (reservaIdAtual) {
-            // Primeiro, pedir a nova data
             mostrarModalCustomizado("Digite a nova data para a reserva (DD-MM-AAAA):", true, (novaData) => {
                 if (!novaData) {
                     exibirMensagem("Data inválida.", "erro");
                     return;
                 }
                 
-                // Depois, pedir o novo método de pagamento
                 mostrarModalCustomizado("Digite o novo método de pagamento (Dinheiro, Cartão, Pix):", true, (novoMetodoPagamento) => {
                     if (!novoMetodoPagamento) {
                         exibirMensagem("Método de pagamento inválido.", "erro");
                         return;
                     }
-                    
-                    // Faz a requisição para modificar a reserva
+
                     fetch('/espaco_lazer/php/modificar_reserva.php', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -118,7 +112,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // Cancelar Reserva
     document.getElementById('cancelarReserva').addEventListener('click', () => {
         if (reservaIdAtual) {
             mostrarModalCustomizado("Tem certeza de que deseja cancelar esta reserva?", false, () => {
@@ -141,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
 
 
 
