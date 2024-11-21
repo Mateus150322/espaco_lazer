@@ -11,41 +11,46 @@ if (isset($data['id'], $data['data'], $data['metodo_pagamento'])) {
     $novoMetodoPagamento = $data['metodo_pagamento'];
 
     try {
+        // Valida o formato da data (esperado DD-MM-AAAA) e converte para AAAA-MM-DD
+        $novaDataFormatada = DateTime::createFromFormat('d-m-Y', $novaData);
+        if (!$novaDataFormatada) {
+            echo json_encode(["status" => "error", "message" => "Formato de data inválido. Use DD-MM-AAAA."]);
+            exit;
+        }
+        $novaDataSQL = $novaDataFormatada->format('Y-m-d');
+
         // Verifica se a nova data já está reservada por outra reserva
-        $stmt_check = $conn->prepare("SELECT * FROM reservas WHERE data = :data AND id != :id");
-        $stmt_check->bindParam(':data', $novaData);
+        $stmt_check = $conn->prepare("SELECT id FROM reservas WHERE data = :data AND id != :id");
+        $stmt_check->bindParam(':data', $novaDataSQL);
         $stmt_check->bindParam(':id', $id);
         $stmt_check->execute();
 
         if ($stmt_check->rowCount() > 0) {
-            // Retorna erro se a data já estiver reservada
-            echo json_encode(["status" => "error", "message" => "A data selecionada já está reservada. Por favor, escolha outra data."]);
+            echo json_encode(["status" => "error", "message" => "A data selecionada já está reservada. Por favor, escolha outra."]);
             exit;
         }
 
-        // Prepara a consulta para atualizar a reserva
-        $stmt = $conn->prepare("UPDATE reservas SET data = :data, metodo_pagamento = :metodo_pagamento WHERE id = :id");
-        $stmt->bindParam(':data', $novaData);
-        $stmt->bindParam(':metodo_pagamento', $novoMetodoPagamento);
-        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        // Atualiza a reserva com os novos valores
+        $stmt_update = $conn->prepare("UPDATE reservas SET data = :data, metodo_pagamento = :metodo_pagamento WHERE id = :id");
+        $stmt_update->bindParam(':data', $novaDataSQL);
+        $stmt_update->bindParam(':metodo_pagamento', $novoMetodoPagamento);
+        $stmt_update->bindParam(':id', $id);
 
-        // Executa a atualização e verifica o resultado
-        if ($stmt->execute()) {
-            echo json_encode(["status" => "success", "message" => "Reserva modificada com sucesso"]);
+        if ($stmt_update->execute()) {
+            echo json_encode(["status" => "success", "message" => "Reserva modificada com sucesso."]);
         } else {
-            echo json_encode(["status" => "error", "message" => "Erro ao modificar a reserva"]);
+            echo json_encode(["status" => "error", "message" => "Erro ao modificar a reserva."]);
         }
     } catch (PDOException $e) {
-        // Retorna uma mensagem de erro caso ocorra uma exceção
         echo json_encode(["status" => "error", "message" => "Erro: " . $e->getMessage()]);
     }
 } else {
-    echo json_encode(["status" => "error", "message" => "Dados da reserva incompletos"]);
+    echo json_encode(["status" => "error", "message" => "Dados da reserva incompletos."]);
 }
 
 // Fecha a conexão com o banco de dados
 $conn = null;
-?>
+
 
 
 
